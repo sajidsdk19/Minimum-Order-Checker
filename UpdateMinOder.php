@@ -158,7 +158,8 @@ class MinimumOrderFee
             $delivery_method = isset($post_data['billing_delivery'])
                 ? sanitize_text_field($post_data['billing_delivery'])
                 : '';
-        } elseif (isset($_POST['billing_delivery'])) {
+        }
+        elseif (isset($_POST['billing_delivery'])) {
             // Fallback: field submitted directly (non-AJAX or custom integrations).
             $delivery_method = sanitize_text_field(wp_unslash($_POST['billing_delivery']));
         }
@@ -170,8 +171,8 @@ class MinimumOrderFee
 
         // Get settings
         $minimum_amount = floatval(get_option('mof_minimum_amount', 25));
-        $fee_amount     = floatval(get_option('mof_fee_amount', 2));
-        $fee_label      = get_option('mof_fee_label', 'Small Order Fee');
+        $fee_amount = floatval(get_option('mof_fee_amount', 2));
+        $fee_label = get_option('mof_fee_label', 'Small Order Fee');
 
         // Use get_cart_contents_total() instead of get_subtotal().
         // get_subtotal()            → raw product prices, BEFORE discounts/coupons.
@@ -191,7 +192,6 @@ class MinimumOrderFee
 
     /**
      * Display notice about minimum order
-     * Skipped for pickup orders (billing_delivery = Option_2).
      */
     public function minimum_order_notice()
     {
@@ -214,7 +214,7 @@ class MinimumOrderFee
         }
 
         // Use get_cart_contents_total() so the notice reflects the discounted cart value
-        $cart_total     = floatval(WC()->cart->get_cart_contents_total());
+        $cart_total = floatval(WC()->cart->get_cart_contents_total());
         $minimum_amount = floatval(get_option('mof_minimum_amount', 25));
 
         if ($cart_total < $minimum_amount && $cart_total > 0) {
